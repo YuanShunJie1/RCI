@@ -9,6 +9,6 @@ This repository contains the official implementation of the paper: **Robust Vert
    Place the required datasets into the `dataset/` directory.
 
 2. **Perform backdoor detection**  
-   You can evaluate detection performance using either method:
+   You can evaluate the detection performance using this command:
    
    python main.py --expid 0 --num_passive 4 --emb_length 128 --gpuid 0 --dataset mnist --use_con 1 --alpha 0.01 --k 1 --lambda_d 0.1 --use_if 1 --contamination 0.02
