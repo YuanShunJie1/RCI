@@ -25,67 +25,6 @@ import time
 
 
 
-# def test_pad_missing_embedding(self, num_to_mask=1):
-#     print(f"\n============== Test Missing Embedding ==============")
-#     self.model.eval()
-#     self.model.active.eval()
-    
-#     for i in range(self.args.num_passive):
-#         self.model.passive[i].eval()
-
-#     correct_top1 = 0
-#     correct_top5 = 0
-#     num_samples = len(self.test_loader.dataset)
-
-#     with torch.no_grad():
-#         for index, (inputs, labels, _) in enumerate(self.test_loader):
-#             inputs = inputs.to(self.device)
-#             labels = labels.to(self.device)
-
-#             # === 数据切分 ===
-#             if self.args.dataset in ['yeast', 'letter']:
-#                 data = [temp.to(self.device) for temp in torch.chunk(inputs, self.args.num_passive, dim=1)]
-#             else:
-#                 data = [temp.to(self.device) for temp in torch.chunk(inputs, self.args.num_passive, dim=2)]
-
-#             # === 获取 passive 端嵌入 ===
-#             emb_list = []
-#             for i in range(self.args.num_passive):
-#                 tmp_emb = self.model.passive[i](data[i])  # [B, D]
-#                 emb_list.append(tmp_emb)
-#             emb = torch.stack(emb_list, dim=1)  # [B, num_clients, D]
-
-#             # === 构造 mask ===
-#             mask = torch.ones((inputs.size(0), self.args.num_passive), dtype=torch.bool).to(self.device)
-#             for b in range(inputs.size(0)):
-#                 masked_features = torch.randperm(self.args.num_passive)[:num_to_mask]
-#                 mask[b, masked_features] = False
-
-#             emb = emb.masked_fill(~mask.unsqueeze(-1), 0.0)  # 将被 mask 的 client 嵌入置为全 0
-
-#             masked_emb = emb                    
-
-#             agg_emb = masked_emb.view(inputs.size(0), -1)
-
-#             logits = self.model.active(agg_emb)
-
-#             if self.args.dataset == 'cifar100':
-#                 _, top5_pred = logits.topk(5, dim=1, largest=True, sorted=True)
-#                 correct_top5 += top5_pred.eq(labels.view(-1, 1).expand_as(top5_pred)).sum().item()
-#             else:
-#                 pred = logits.argmax(dim=1, keepdim=True)
-#                 correct_top1 += pred.eq(labels.view_as(pred)).sum().item()
-
-#     # === 输出最终准确率 ===
-#     if self.args.dataset == 'cifar100':
-#         test_acc = 100. * correct_top5 / num_samples
-#         print('Recovered Embeddings Top-5 Accuracy: {}/{} ({:.2f}%)\n'.format(correct_top5, num_samples, test_acc))
-#     else:
-#         test_acc = 100. * correct_top1 / num_samples
-#         print('Recovered Embeddings Accuracy: {}/{} ({:.2f}%)\n'.format(correct_top1, num_samples, test_acc))
-
-#     return test_acc
-
 def plot_feature_distribution(
     feature_values,
     true_labels,
